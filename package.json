@@ -1,0 +1,15 @@
+{
+  "name": "twitter-clone",
+  "version": "1.0.0",
+  "description": "This is a twitter/X clone built with React, Express and MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "build": "pnpm exec nx run-many -t build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nx": "18.3.4"
+  }
+}

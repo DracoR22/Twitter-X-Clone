@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "target": "es2021",                               
+  
+      "module": "commonjs",                                
+     
+      "esModuleInterop": true,                                   
+      "forceConsistentCasingInFileNames": true,           
+      "strict": true,          
+  
+      "skipLibCheck": true,   
+      "outDir": "dist",
+      "rootDir": "src",
+      
+      // NECESARY TO CREATE RELATIONS IN SEQUELIZE SCHEMAS
+    //   "experimentalDecorators": true,
+    //   "emitDecoratorMetadata": true,
+  
+      "typeRoots": ["src/types/interfaces", "./node_modules/@types"]
+    }
+  }
