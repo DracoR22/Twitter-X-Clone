@@ -4,12 +4,19 @@
   "description": "This is a twitter/X clone built with React, Express and MongoDB",
   "main": "index.js",
   "scripts": {
-    "build": "pnpm exec nx run-many -t build"
+    "build": "pnpm exec nx run-many -t build",
+    "lint": "pnpm exec nx run-many -t lint",
+    "tsc": "pnpm exec nx run-many -t tsc",
+    "validate": "pnpm tsc && pnpm lint",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "eslint": "^8.57.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.2",
     "nx": "18.3.4"
   }
 }
