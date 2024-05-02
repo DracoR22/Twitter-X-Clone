@@ -113,9 +113,11 @@ export const logoutUser = CatchAsyncError(async (req: Request, res: Response, ne
 
 export const getMe = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // const userId = req.user?.id
+        const userId = req.user?.id
 
-        // const user = await User.findById(userId)
+        const user = await User.findById(userId).select("-password")
+
+        res.status(200).json({ user })
     } catch (error: any) {
         return next(new ErrorHandler(error.message, 500))
     }

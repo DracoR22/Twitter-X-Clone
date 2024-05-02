@@ -3,17 +3,20 @@ import { ErrorMiddleware } from "./middleware/error"
 import authRouter from "./routes/auth.routes"
 import cors from "cors"
 import cookieParser from "cookie-parser"
+import userRouter from "./routes/user.routes"
 
 export const app = express()
 
 app.use(express.json({ limit: "50mb" })) // to parse req.body
 app.use(cookieParser())
 app.use(cors({
-    origin: "*"
+    origin: "*",
+    credentials: true
  }))
 
 // Routes
 app.use("/v1/api/auth", authRouter)
+app.use("/v1/api/users", userRouter)
 
 // Test Api
 app.get('/', async (req, res) => {
