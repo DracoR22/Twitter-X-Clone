@@ -2,10 +2,12 @@ import express, { NextFunction, Request, Response } from "express"
 import { ErrorMiddleware } from "./middleware/error"
 import authRouter from "./routes/auth.routes"
 import cors from "cors"
+import cookieParser from "cookie-parser"
 
 export const app = express()
 
 app.use(express.json({ limit: "50mb" })) // to parse req.body
+app.use(cookieParser())
 app.use(cors({
     origin: "*"
  }))

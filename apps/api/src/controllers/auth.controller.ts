@@ -97,3 +97,26 @@ export const loginUser = CatchAsyncError(async (req: Request, res: Response, nex
         return next(new ErrorHandler(error.message, 500))
     }
 })
+
+export const logoutUser = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        res.cookie("jwt", "", { maxAge: 0 })
+
+        res.status(200).json({ 
+            success: true,
+            message: "Logged out succesfully"
+        })
+    } catch (error: any) {
+        return next(new ErrorHandler(error.message, 500))
+    }
+})
+
+export const getMe = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // const userId = req.user?.id
+
+        // const user = await User.findById(userId)
+    } catch (error: any) {
+        return next(new ErrorHandler(error.message, 500))
+    }
+})

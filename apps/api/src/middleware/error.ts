@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { ErrorHandler } from "@twitter-clone/utils"
 
-export const ErrorMiddleware = (err: any, req: Request, res: Response) => {
+/* eslint-disable @typescript-eslint/no-unused-vars */
+export const ErrorMiddleware = (err: any, req: Request, res: Response, next: NextFunction) => {
     err.statusCode = err.statusCode || 500
     err.message = err.message || 'Internal server error'
 
