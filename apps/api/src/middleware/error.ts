@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { ErrorHandler } from "@twitter-clone/utils"
 
-export const ErrorMiddleware = (err: any, req: Request, res: Response, next: NextFunction) => {
+export const ErrorMiddleware = (err: any, req: Request, res: Response) => {
     err.statusCode = err.statusCode || 500
     err.message = err.message || 'Internal server error'
 
