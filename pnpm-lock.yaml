@@ -122,6 +122,19 @@ importers:
         specifier: ^5.2.0
         version: 5.2.10
 
+  libs/cloudinary:
+    dependencies:
+      cloudinary:
+        specifier: ^2.2.0
+        version: 2.2.0
+    devDependencies:
+      '@types/node':
+        specifier: ^20.12.8
+        version: 20.12.8
+      typescript:
+        specifier: ^5.2.2
+        version: 5.4.5
+
   libs/utils:
     dependencies:
       jsonwebtoken:

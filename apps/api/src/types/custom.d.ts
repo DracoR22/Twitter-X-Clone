@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request } from "express";
-import { IUser } from "../models/user.model";
+import { IUser } from "./interfaces/user-interface";
 
 declare global {
     namespace Express {
