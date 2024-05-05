@@ -5,6 +5,7 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 import userRouter from "./routes/user.routes"
 import postRouter from "./routes/post.routes"
+import notificationRouter from "./routes/notification.routes"
 
 export const app = express()
 
@@ -19,6 +20,7 @@ app.use(cors({
 app.use("/v1/api/auth", authRouter)
 app.use("/v1/api/users", userRouter)
 app.use("/v1/api/posts", postRouter)
+app.use("/api/notifications", notificationRouter)
 
 // Test Api
 app.get('/', async (req, res) => {
