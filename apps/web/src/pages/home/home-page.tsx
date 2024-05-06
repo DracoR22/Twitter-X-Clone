@@ -1,4 +1,6 @@
 import { useState } from "react";
+import CreatePost from "./create-post";
+import Posts from "../../components/common/posts";
 
 // import Posts from "../../components/common/Posts";
 // import CreatePost from "./CreatePost";
@@ -34,10 +36,10 @@ const HomePage = () => {
 				</div>
 
 				{/*  CREATE POST INPUT */}
-				{/* <CreatePost /> */}
+				<CreatePost/>
 
 				{/* POSTS */}
-				{/* <Posts /> */}
+				<Posts />
 			</div>
 		</>
 	);
