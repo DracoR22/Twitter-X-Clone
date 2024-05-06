@@ -4,6 +4,8 @@
   "description": "This is a twitter/X clone built with React, Express and MongoDB",
   "main": "index.js",
   "scripts": {
+    "checkNpmVersion": "sh ./scripts/check-npm-version.sh",
+    "cleanBuild": "sh ./scripts/clean-package.sh",
     "build": "pnpm exec nx run-many -t build",
     "lint": "pnpm exec nx run-many -t lint",
     "tsc": "pnpm exec nx run-many -t tsc",
