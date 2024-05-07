@@ -4,7 +4,9 @@ import LoginPage from "./pages/auth/login/login-page"
 import HomePage from "./pages/home/home-page"
 import Sidebar from "./components/common/sidebar"
 import RightPanel from "./components/common/right-panel"
-
+import NotificationPage from "./pages/notification/notification"
+import ProfilePage from "./pages/profile/profile-page"
+import { Toaster } from "react-hot-toast"
 
 const App = () => {
   return (
@@ -14,8 +16,11 @@ const App = () => {
 				<Route path='/' element={<HomePage/>} />
 				<Route path='/signup' element={<SignUpPage/>} />
 				<Route path='/login' element={<LoginPage/>} />
+				<Route path='/notifications' element={<NotificationPage/>} />
+				<Route path='/profile/:username' element={<ProfilePage/>} />
 			</Routes>
-      <RightPanel/>
+           <RightPanel/>
+		   <Toaster toastOptions={{ style: { background: '#333', color: '#fff' }}}/>
 		</div>
   )
 }

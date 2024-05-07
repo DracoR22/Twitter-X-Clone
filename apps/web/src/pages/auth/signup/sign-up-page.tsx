@@ -7,25 +7,54 @@ import { MdOutlineMail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { MdPassword } from "react-icons/md";
 import { MdDriveFileRenameOutline } from "react-icons/md";
+import { useMutation } from "@tanstack/react-query"
+import { toast } from "react-hot-toast"
 
 const SignUpPage = () => {
 	const [formData, setFormData] = useState({
 		email: "",
 		username: "",
-		fullName: "",
+		fullname: "",
 		password: "",
 	});
 
+	const { mutate, isError, isPending, error } = useMutation({
+		// @ts-expect-error
+		mutationFn: async ({ email, username, fullname, password }) => {
+			try {
+				const res = await fetch('/v1/api/auth/signup', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ email, username, fullname, password })
+				})
+
+				const data = await res.json()
+			
+				if (!res.ok) throw new Error(data.message || 'Something went wrong! Please try again later.')
+
+				return data
+			} catch (error: any) {
+				console.log(error)
+				// Show error below the button instead on toast
+				throw error
+			}
+		},
+
+		onSuccess: () => {
+			toast.success('Account created successfully')
+		}
+	})
+
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
-		console.log(formData);
+		mutate(formData as any)
 	};
 
 	const handleInputChange = (e: any) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
-
-	const isError = false;
 
 	return (
 		<div className='max-w-screen-xl mx-auto flex h-screen px-10'>
@@ -65,9 +94,9 @@ const SignUpPage = () => {
 								type='text'
 								className='grow'
 								placeholder='Full Name'
-								name='fullName'
+								name='fullname'
 								onChange={handleInputChange}
-								value={formData.fullName}
+								value={formData.fullname}
 							/>
 						</label>
 					</div>
@@ -82,8 +111,10 @@ const SignUpPage = () => {
 							value={formData.password}
 						/>
 					</label>
-					<button className='btn rounded-full btn-primary text-white'>Sign up</button>
-					{isError && <p className='text-red-500'>Something went wrong</p>}
+					<button className='btn rounded-full btn-primary text-white'>
+						{isPending ? 'Loading...' : 'Sign Up'}
+					</button>
+					{isError && <p className='text-red-500'>{error.message}</p>}
 				</form>
 				<div className='flex flex-col lg:w-2/3 gap-2 mt-4'>
 					<p className='text-white text-lg'>Already have an account?</p>

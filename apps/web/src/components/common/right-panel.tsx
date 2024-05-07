@@ -4,7 +4,7 @@ import { USERS_FOR_RIGHT_PANEL } from "@twitter-clone/web-shared"
 
 const RightPanel = () => {
 	const isLoading = false;
-     console.log(USERS_FOR_RIGHT_PANEL)
+    //  console.log(USERS_FOR_RIGHT_PANEL)
 	return (
 		<div className='hidden lg:block my-4 mx-2'>
 			<div className='bg-[#16181C] p-4 rounded-md sticky top-2'>
