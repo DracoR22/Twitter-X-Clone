@@ -41,8 +41,42 @@ const Post = ({ post }: any) => {
 		}
 	})
 
+	const { mutate: likePost, isPending: isLiking } = useMutation({
+		mutationFn: async () => {
+			try {
+				const res = await fetch(`/v1/api/posts/like/${post._id}`, {
+					method: 'POST'
+				})
+
+				const data = await res.json()
+
+				if (!res.ok) throw new Error(data.message || 'Something went wrong! Please try again later.')
+
+				return data
+			} catch (error: any) {
+				throw new Error(error)
+			}
+		},
+
+		onSuccess: (updatedLikes) => {
+	         queryClient.setQueryData(["posts"], (oldData: any) => {
+				return oldData.map((p: any) => {
+                   if (p._id === post._id) {
+					return {...p, likes: updatedLikes}
+				   }
+
+				   return p
+				})
+			 })
+		},
+
+		onError: (error: any) => {
+			toast.error(error.message)
+		}
+	})
+
 	const postOwner = post.user;
-	const isLiked = false;
+	const isLiked = post.likes.includes(authUser._id);
 
 	const isMyPost = authUser._id === post.user._id
 
@@ -58,7 +92,10 @@ const Post = ({ post }: any) => {
 		e.preventDefault();
 	};
 
-	const handleLikePost = () => {};
+	const handleLikePost = () => {
+		if (isLiking) return
+		likePost()
+	};
 
 	return (
 		<>
@@ -153,7 +190,7 @@ const Post = ({ post }: any) => {
 										/>
 										<button className='btn btn-primary rounded-full btn-sm text-white px-4'>
 											{isCommenting ? (
-												<span className='loading loading-spinner loading-md'></span>
+												<LoadingSpinner size="sm"/>
 											) : (
 												"Post"
 											)}
@@ -176,7 +213,7 @@ const Post = ({ post }: any) => {
 
 								<span
 									className={`text-sm text-slate-500 group-hover:text-pink-500 ${
-										isLiked ? "text-pink-500" : ""
+										isLiked ? "text-pink-500" : "text-slate-500"
 									}`}
 								>
 									{post.likes.length}

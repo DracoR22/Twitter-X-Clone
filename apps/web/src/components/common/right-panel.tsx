@@ -1,10 +1,38 @@
 import { Link } from "react-router-dom";
 import RightPanelSkeleton from "../skeletons/right-panel-skeleton";
-import { USERS_FOR_RIGHT_PANEL } from "@twitter-clone/web-shared"
+import { useQuery } from "@tanstack/react-query";
+import useFollow from "../../hooks/use-follow";
+import LoadingSpinner from "./loading-spinner";
 
 const RightPanel = () => {
-	const isLoading = false;
-    //  console.log(USERS_FOR_RIGHT_PANEL)
+	
+	const { data, isLoading } = useQuery({
+		queryKey: ["suggestedUsers"],
+		queryFn: async () => {
+			try {
+				const res = await fetch('/v1/api/users/suggested')
+
+				const data = await res.json()
+
+				if (!res.ok) throw new Error(data.message || 'Something went wrong! Please try again later.')
+
+				return data
+			} catch (error: any) {
+				throw new Error(error.message)
+			}
+		}
+	})
+
+	const { follow, loadingIndex } = useFollow()
+
+	if (data?.length === 0) {
+		return (
+			<div className="md:w-64 w-0">
+
+			</div>
+		)
+	}
+
 	return (
 		<div className='hidden lg:block my-4 mx-2'>
 			<div className='bg-[#16181C] p-4 rounded-md sticky top-2'>
@@ -20,7 +48,7 @@ const RightPanel = () => {
 						</>
 					)}
 					{!isLoading &&
-						USERS_FOR_RIGHT_PANEL?.map((user) => (
+						data?.map((user: any, index: number) => (
 							<Link
 								to={`/profile/${user.username}`}
 								className='flex items-center justify-between gap-4'
@@ -34,17 +62,22 @@ const RightPanel = () => {
 									</div>
 									<div className='flex flex-col'>
 										<span className='font-semibold tracking-tight truncate w-28'>
-											{user.fullName}
+											{user.fullname}
 										</span>
 										<span className='text-sm text-slate-500'>@{user.username}</span>
 									</div>
 								</div>
 								<div>
 									<button
+									    disabled={loadingIndex !== null}
 										className='btn bg-white text-black hover:bg-white hover:opacity-90 rounded-full btn-sm'
-										onClick={(e) => e.preventDefault()}
+										onClick={(e) => {
+											e.preventDefault()
+											const userId = user._id
+											follow({userId, index})
+										}}
 									>
-										Follow
+										{loadingIndex === index ? <LoadingSpinner size="sm"/> : 'Follow'}
 									</button>
 								</div>
 							</Link>

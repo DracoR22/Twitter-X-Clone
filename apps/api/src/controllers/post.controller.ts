@@ -125,10 +125,14 @@ export const likeUnlikePost = CatchAsyncError(async (req: Request, res: Response
            // Unlike Post
            await Post.updateOne({ _id: postId }, { $pull: { likes: userId }})
            await User.updateOne({ _id: userId }, { $pull: { likedPosts: postId }})
+
+           const updatedLikes = post.likes.filter((id) => id.toString() !== userId.toString())
            
-           res.status(200).json({ success: true, message: 'Post unliked' })
+           res.status(200).json(updatedLikes)
         } else {
           // Like Post
+          post.likes.push(userId)
+
           await Post.updateOne({ _id: postId }, { $push: { likes: userId }})
           await User.updateOne({ _id: userId }, { $push: { likedPosts: postId }})
 
@@ -140,7 +144,9 @@ export const likeUnlikePost = CatchAsyncError(async (req: Request, res: Response
 
           await notification.save()
            
-          res.status(200).json({ success: true, message: 'Post liked' })
+          const updatedLikes = post.likes
+
+          res.status(200).json(updatedLikes)
         }
 
     } catch (error: any) {
