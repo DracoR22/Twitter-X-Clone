@@ -2,6 +2,9 @@ import { CiImageOn } from "react-icons/ci";
 import { BsEmojiSmileFill } from "react-icons/bs";
 import { useRef, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AuthUserType } from "@twitter-clone/types";
+import toast from "react-hot-toast";
 
 const CreatePost = () => {
 	const [text, setText] = useState("");
@@ -9,16 +12,43 @@ const CreatePost = () => {
 
 	const imgRef = useRef<any>(null);
 
-	const isPending = false;
-	const isError = false;
+	const queryClient = useQueryClient()
 
-	const data = {
-		profileImg: "/avatars/4.png",
-	};
+	const { data } = useQuery({ queryKey: ["authUser"]}) as AuthUserType
+
+	const { mutate: createPost, isPending, isError, error } = useMutation({
+		mutationFn: async ({ text, img }: any) => {
+			try {
+				const res = await fetch('/v1/api/posts/create', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ text, img })
+				})
+
+				const data = await res.json()
+
+				if (!res.ok) throw new Error(data.message || 'Something went wrong! Please try again later.')
+
+				return data
+			} catch (error: any) {
+				throw new Error (error)
+			}
+		},
+
+		onSuccess: () => {
+			setText('')
+			setImg(null)
+			toast.success('You created a post!')
+			// Refetch posts
+			queryClient.invalidateQueries({ queryKey: ['posts'] })
+		}
+	})
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
-		alert("Post created successfully");
+		createPost({ text, img })
 	};
 
 	const handleImgChange = (e: any) => {
@@ -72,7 +102,9 @@ const CreatePost = () => {
 						{isPending ? "Posting..." : "Post"}
 					</button>
 				</div>
-				{isError && <div className='text-red-500'>Something went wrong</div>}
+				{isError && <div className='text-red-500'>
+					{error.message}
+				</div>}
 			</form>
 		</div>
 	);
