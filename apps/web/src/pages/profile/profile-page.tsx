@@ -11,7 +11,11 @@ import EditProfileModal from "./edit-profile-modal";
 import Posts from "../../components/common/posts";
 import ProfileHeaderSkeleton from "../../components/skeletons/profile-header-skeleton";
 
+
 const ProfilePage = () => {
+
+	// const { data: authUser, error, isPending } = useQuery({ queryKey: ["authUser"]})
+
 	const [coverImg, setCoverImg] = useState<any>(null);
 	const [profileImg, setProfileImg] = useState<any>(null);
 	const [feedType, setFeedType] = useState("posts");

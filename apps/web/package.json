@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.35.1",
+    "@twitter-clone/types": "workspace:^",
     "@twitter-clone/web-shared": "workspace:^",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -37,6 +38,9 @@
   },
   "dependenciesMeta": {
     "@twitter-clone/web-shared": {
+      "injected": true
+    },
+    "@twitter-clone/types": {
       "injected": true
     }
   }

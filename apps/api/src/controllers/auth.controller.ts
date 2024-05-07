@@ -117,7 +117,7 @@ export const getMe = CatchAsyncError(async (req: Request, res: Response, next: N
 
         const user = await User.findById(userId).select("-password")
 
-        res.status(200).json({ user })
+        res.status(200).json(user)
     } catch (error: any) {
         return next(new ErrorHandler(error.message, 500))
     }
