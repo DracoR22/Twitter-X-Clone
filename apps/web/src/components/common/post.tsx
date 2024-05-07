@@ -36,7 +36,7 @@ const Post = ({ post }: any) => {
 				<div className='flex flex-col flex-1'>
 					<div className='flex gap-2 items-center'>
 						<Link to={`/profile/${postOwner.username}`} className='font-bold'>
-							{postOwner.fullName}
+							{postOwner.fullname}
 						</Link>
 						<span className='text-gray-700 flex gap-1 text-sm'>
 							<Link to={`/profile/${postOwner.username}`}>@{postOwner.username}</Link>

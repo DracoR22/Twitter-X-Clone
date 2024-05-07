@@ -25,7 +25,7 @@ const App = () => {
 
 			if (!res.ok) throw new Error(data.message || 'Something went wrong! Please try again later.')
 
-			console.log('Auth user:', data)
+			// console.log('Auth user:', data)
 
 			return data
 		} catch (error: any) {
