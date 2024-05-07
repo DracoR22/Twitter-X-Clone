@@ -155,6 +155,8 @@ importers:
         specifier: ^5.2.0
         version: 5.2.10
     dependenciesMeta:
+      '@twitter-clone/types':
+        injected: true
       '@twitter-clone/web-shared':
         injected: true
 

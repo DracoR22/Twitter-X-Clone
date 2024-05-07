@@ -9,6 +9,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AuthUserType } from "@twitter-clone/types";
 import toast from "react-hot-toast";
 import LoadingSpinner from "./loading-spinner";
+import { formatPostDate } from "@twitter-clone/web-shared"
 
 const Post = ({ post }: any) => {
 	const [comment, setComment] = useState("");
@@ -75,14 +76,45 @@ const Post = ({ post }: any) => {
 		}
 	})
 
+	const { mutate: commentPost, isPending: isCommenting } = useMutation({
+        mutationFn: async () => {
+			try {
+				const res = await fetch(`/v1/api/posts/comment/${post._id}`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ text: comment })
+				})
+
+				const data = await res.json()
+
+				if (!res.ok) throw new Error(data.message || 'Something went wrong! Please try again later.')
+
+				return data
+			} catch (error: any) {
+				throw new Error(error)
+			}
+		},
+
+		onSuccess: () => {
+           toast.success('Comment submitted!')
+
+		   // Refetch posts
+		   queryClient.invalidateQueries({ queryKey: ["posts" ]})
+		},
+
+		onError: (error: any) => {
+             toast.error(error.message)
+		}
+	})
+
 	const postOwner = post.user;
 	const isLiked = post.likes.includes(authUser._id);
 
 	const isMyPost = authUser._id === post.user._id
 
-	const formattedDate = "1h";
-
-	const isCommenting = false;
+	const formattedDate = formatPostDate(post.createdAt)
 
 	const handleDeletePost = () => {
 		deletePost()
@@ -90,6 +122,8 @@ const Post = ({ post }: any) => {
 
 	const handlePostComment = (e: any) => {
 		e.preventDefault();
+		if (isCommenting) return
+		commentPost()
 	};
 
 	const handleLikePost = () => {
@@ -162,7 +196,7 @@ const Post = ({ post }: any) => {
 												<div className='avatar'>
 													<div className='w-8 rounded-full'>
 														<img
-															src={comment.user.profileImg || "/avatars/1.png"}
+															src={comment.user.profileImg || "/avatar-placeholder.png"}
 														/>
 													</div>
 												</div>
