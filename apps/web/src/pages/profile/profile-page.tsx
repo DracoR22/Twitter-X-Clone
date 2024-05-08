@@ -43,6 +43,8 @@ const ProfilePage = () => {
 		},
 	});
 
+	const userId = user._id
+
 	const [coverImg, setCoverImg] = useState<any>(null);
 	const [profileImg, setProfileImg] = useState<any>(null);
 	const [feedType, setFeedType] = useState("posts");
@@ -139,7 +141,7 @@ const ProfilePage = () => {
 								{!isMyProfile && (
 									<button
 										className='btn btn-outline rounded-full btn-sm'
-										onClick={() => follow(user?._id)}
+										onClick={() => follow({userId, i: 1})}
 									>
 										{isPending && "Loading..."}
 										{!isPending && amIFollowing && "Unfollow"}
