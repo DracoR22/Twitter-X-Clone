@@ -9,7 +9,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/v1': {
-        target: 'http://localhost:3000',
+        // target: 'http://localhost:3000',
+        target: 'https://twitter-x-clone-vnjo.onrender.com',
         changeOrigin: true
       }
     }
