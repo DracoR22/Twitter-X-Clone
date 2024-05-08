@@ -47,5 +47,6 @@ Running commands with npm `pnpm [command]`
 | `dev`   | Starts a development instance of the app |
 | `build` | Build all workspaces projects            |
 | `lint`  | Check lint for all projects              |
+| `nx run-many --target=build`  | Build all projects              |
 | `nx build @twitter-clone/web` | Build the web project           |
 | `nx build @twitter-clone/api` | Build the api project           |
