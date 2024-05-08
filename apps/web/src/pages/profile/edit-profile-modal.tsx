@@ -48,7 +48,7 @@ const EditProfileModal = ({ authUser }: any) => {
 						className='flex flex-col gap-4'
 						onSubmit={(e) => {
 							e.preventDefault();
-							// @ts-expect-error
+						
 							updateProfile(formData);
 						}}
 					>

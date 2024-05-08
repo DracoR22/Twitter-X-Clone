@@ -43,7 +43,7 @@ const ProfilePage = () => {
 		},
 	});
 
-	const userId = user._id
+	const userId = user?._id
 
 	const [coverImg, setCoverImg] = useState<any>(null);
 	const [profileImg, setProfileImg] = useState<any>(null);
@@ -152,7 +152,7 @@ const ProfilePage = () => {
 									<button
 										className='btn btn-primary rounded-full btn-sm text-white px-4 ml-2'
 										onClick={async () => {
-											// @ts-expect-error
+											
 											await updateProfile({ coverImg, profileImg });
 											setProfileImg(null);
 											setCoverImg(null);
@@ -176,7 +176,7 @@ const ProfilePage = () => {
 											<>
 												<FaLink className='w-3 h-3 text-slate-500' />
 												<a
-													href='https://youtube.com/@asaprogrammer_'
+													href={user?.link}
 													target='_blank'
 													rel='noreferrer'
 													className='text-sm text-blue-500 hover:underline'

@@ -151,7 +151,7 @@ export const updateUser = CatchAsyncError(async (req: Request, res: Response, ne
                 await cloudinary.uploader.destroy(user.coverImg.split('/').pop()!.split('.')[0])
             }
 
-            const uploadedResponse = await cloudinary.uploader.upload(coverImg, { folder: 'twitter-clone/users', width: 150, height: 150, crop: 'fill'})
+            const uploadedResponse = await cloudinary.uploader.upload(coverImg, { folder: 'twitter-clone/users' })
             coverImg = uploadedResponse.secure_url
         }
 

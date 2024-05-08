@@ -1,11 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const useUpdateUserProfile = () => {
 	const queryClient = useQueryClient();
 
+	const navigate = useNavigate()
+
 	const { mutateAsync: updateProfile, isPending: isUpdatingProfile } = useMutation({
-		mutationFn: async (formData) => {
+		mutationFn: async (formData: any) => {
 			try {
 				const res = await fetch(`/v1/api/users/update`, {
 					method: "POST",
@@ -17,6 +20,10 @@ const useUpdateUserProfile = () => {
 				const data = await res.json();
 				if (!res.ok) {
 					throw new Error(data.message || "Something went wrong");
+				}
+
+				if (formData.username) {
+					navigate(`/profile/${formData.username}`)
 				}
 				return data;
 			} catch (error: any) {

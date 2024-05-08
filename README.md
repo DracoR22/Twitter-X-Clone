@@ -1,7 +1,7 @@
 # TWITTER-X CLONE
 
 <p align="center">
-<img alt='/' src="/screenshots/home.png" width="900px" height="auto"/>
+<img alt='/' src="/screenshots/profile.png" width="900px" height="auto"/>
 </p>
 
 Key Features:
