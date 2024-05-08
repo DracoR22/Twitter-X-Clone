@@ -35,5 +35,13 @@
     "tailwindcss": "^3.4.3",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
+  },
+  "dependenciesMeta": {
+    "@twitter-clone/web-shared": {
+      "injected": true
+    },
+    "@twitter-clone/types": {
+      "injected": true
+    }
   }
 }
