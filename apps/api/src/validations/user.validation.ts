@@ -8,7 +8,21 @@ export const updateUserValidation = [
     body("newPassword").optional().isString().withMessage("New password must be a string").isLength({ min: 6 }).withMessage("New password must be at least 6 characters long"),
     body("bio").optional().isString().withMessage("Bio must be a string"),
     body("link").optional().isString().withMessage("Link must be a string"),
-    body("profileImg").optional().isString().withMessage("ProfileImg must be a string"),
-    body("coverImg").optional().isString().withMessage("CoverImg must be a string"),
+    body("profileImg").optional().custom(value => {
+        // Check if value is either a string or null
+        if (value === null || typeof value === 'string') {
+            return true; // Validation passed
+        }
+        // Validation failed
+        throw new Error("ProfileImg must be a string or null");
+    }),
+    body("coverImg").optional().custom(value => {
+        // Check if value is either a string or null
+        if (value === null || typeof value === 'string') {
+            return true; // Validation passed
+        }
+        // Validation failed
+        throw new Error("CoverImg must be a string or null");
+    })
 ];
 

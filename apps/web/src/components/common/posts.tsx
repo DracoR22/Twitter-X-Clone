@@ -4,10 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 interface Props {
-	feedType: 'forYou' | 'following'
+	feedType: 'forYou' | 'following' | 'likes' | 'posts'
+	userId?: string
+	username?: string
 }
 
-const Posts = ({ feedType }: Props) => {
+const Posts = ({ feedType, userId, username }: Props) => {
 
 	const getPostEndpoint = () => {
       switch (feedType){
@@ -15,6 +17,10 @@ const Posts = ({ feedType }: Props) => {
 			return '/v1/api/posts/all'
 		case 'following':
 			return '/v1/api/posts/following'
+		case "posts":
+			return `/v1/api/posts/user/${username}`;
+		case "likes":
+			return `/v1/api/posts/likes/${userId}`;
 		default:
 			return '/v1/api/posts/all'
 	  }

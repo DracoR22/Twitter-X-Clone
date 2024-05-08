@@ -4,7 +4,6 @@ import { ErrorHandler } from "@twitter-clone/utils";
 import { Types } from 'mongoose';
 import User from "../models/user.model";
 import Notification from "../models/notification.model";
-import { validationResult } from "express-validator";
 import bcrypt from "bcryptjs";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -103,11 +102,11 @@ export const getSuggestedUser = CatchAsyncError(async (req: Request, res: Respon
 
 export const updateUser = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const err = validationResult(req) // Validate req.body
+        // const err = validationResult(req) // Validate req.body
 
-        if (!err.isEmpty()) {
-            return next(new ErrorHandler(err.array()[0].msg, 400))
-        }
+        // if (!err.isEmpty()) {
+        //     return next(new ErrorHandler(err.array()[0].msg, 400))
+        // }
 
         const { fullname, username, email, currentPassword, newPassword, bio, link } = req.body
 

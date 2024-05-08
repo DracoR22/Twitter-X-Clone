@@ -20,7 +20,7 @@ app.use(cors({
 app.use("/v1/api/auth", authRouter)
 app.use("/v1/api/users", userRouter)
 app.use("/v1/api/posts", postRouter)
-app.use("/api/notifications", notificationRouter)
+app.use("/v1/api/notifications", notificationRouter)
 
 // Test Api
 app.get('/', async (req, res) => {

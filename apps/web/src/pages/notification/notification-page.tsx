@@ -4,33 +4,48 @@ import LoadingSpinner from "../../components/common/loading-spinner";
 import { IoSettingsOutline } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const NotificationPage = () => {
-	const isLoading = false;
-	const notifications = [
-		{
-			_id: "1",
-			from: {
-				_id: "1",
-				username: "johndoe",
-				profileImg: "/avatars/2.png",
-			},
-			type: "follow",
-		},
-		{
-			_id: "2",
-			from: {
-				_id: "2",
-				username: "janedoe",
-				profileImg: "/avatars/4.png",
-			},
-			type: "like",
-		},
-	];
+	const queryClient = useQueryClient();
 
-	const deleteNotifications = () => {
-		alert("All notifications deleted");
-	};
+	const { data: notifications, isLoading } = useQuery({
+		queryKey: ["notifications"],
+		queryFn: async () => {
+			try {
+				const res = await fetch("/v1/api/notifications/get");
+				const data = await res.json();
+				if (!res.ok) throw new Error(data.message || "Something went wrong");
+				return data;
+			} catch (error: any) {
+				throw new Error(error);
+			}
+		},
+	});
+
+	const { mutate: deleteNotifications } = useMutation({
+		mutationFn: async () => {
+			try {
+				const res = await fetch("/v1/api/notifications/delete", {
+					method: "DELETE",
+				});
+				const data = await res.json();
+
+				if (!res.ok) throw new Error(data.message || "Something went wrong");
+				return data;
+			} catch (error: any) {
+				throw new Error(error);
+			}
+		},
+		onSuccess: () => {
+			toast.success("Notifications deleted successfully");
+			queryClient.invalidateQueries({ queryKey: ["notifications"] });
+		},
+		onError: (error) => {
+			toast.error(error.message);
+		},
+	});
 
 	return (
 		<>
@@ -46,7 +61,7 @@ const NotificationPage = () => {
 							className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52'
 						>
 							<li>
-								<a onClick={deleteNotifications}>Delete all notifications</a>
+								<a onClick={deleteNotifications as any}>Delete all notifications</a>
 							</li>
 						</ul>
 					</div>
@@ -57,7 +72,7 @@ const NotificationPage = () => {
 					</div>
 				)}
 				{notifications?.length === 0 && <div className='text-center p-4 font-bold'>No notifications 🤔</div>}
-				{notifications?.map((notification) => (
+				{notifications?.map((notification: any) => (
 					<div className='border-b border-gray-700' key={notification._id}>
 						<div className='flex gap-2 p-4'>
 							{notification.type === "follow" && <FaUser className='w-7 h-7 text-primary' />}
